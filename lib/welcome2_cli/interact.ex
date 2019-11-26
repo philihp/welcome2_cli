@@ -4,7 +4,6 @@ defmodule Welcome2Cli.Interact do
   def start() do
     Welcome2Game.new_game()
     |> setup_state
-    |> IO.inspect()
     |> Player.play()
   end
 
@@ -12,13 +11,5 @@ defmodule Welcome2Cli.Interact do
     %State{
       service: game
     }
-  end
-
-  def play(state) do
-    # interact
-    # interact
-    # interact
-    # interact
-    play(state)
   end
 end
