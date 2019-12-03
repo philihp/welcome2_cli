@@ -13,6 +13,7 @@ defmodule Welcome2Cli.MixProject do
 
   def application do
     [
+      included_applications: [:welcome2_game],
       extra_applications: [:logger]
     ]
   end

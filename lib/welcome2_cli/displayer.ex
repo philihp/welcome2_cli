@@ -1,8 +1,8 @@
-defmodule Welcome2Cli.Summary do
+defmodule Welcome2Cli.Displayer do
   alias Welcome2Cli.State
 
   def display(state = %State{view: view}) do
-    view |> IO.inspect()
+    IO.inspect(view)
     state
   end
 end
