@@ -1,8 +1,10 @@
 defmodule Welcome2Cli.Prompter do
   alias Welcome2Cli.State
 
-  def accept_move(game = %State{turn: turn}) do
-    IO.gets("#{turn}$ ")
+  def accept_move(game = %State{view: %{moves: moves}}) do
+    IO.inspect(moves)
+
+    IO.gets("$ ")
     |> check_input(game)
   end
 

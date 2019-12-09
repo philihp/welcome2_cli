@@ -16,8 +16,6 @@ defmodule Welcome2Cli.Player do
   end
 
   def play(game) do
-    IO.puts("INSPECT: ")
-    game |> IO.inspect()
     continue(game)
   end
 end
