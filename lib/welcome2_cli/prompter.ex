@@ -5,25 +5,53 @@ defmodule Welcome2Cli.Prompter do
     IO.inspect(moves)
 
     IO.gets("$ ")
+    |> guard_error
+    |> String.split()
+    |> to_move
     |> check_input(game)
   end
 
-  defp check_input({:error, reason}, _) do
+  defp guard_error(:eof) do
+    exit(:normal)
+  end
+
+  defp guard_error({:error, reason}) do
     IO.puts("Game ended because #{reason}")
     exit(:normal)
   end
 
-  defp check_input(input, game = %State{view: %{moves: moves}}) do
-    key = input |> String.trim() |> String.to_atom()
+  defp guard_error(input) do
+    input
+  end
 
+  defp to_move([command]) do
+    to_command(command)
+  end
+
+  defp to_move([command | params]) do
+    List.to_tuple([to_command(command) | Enum.map(params, &to_param/1)])
+  end
+
+  defp to_command(command) do
+    String.to_atom(command)
+  end
+
+  defp to_param(param) when param in ["a", "b", "c"] do
+    String.to_atom(param)
+  end
+
+  defp to_param(param) do
+    {digit, _} = Integer.parse(param)
+    digit
+  end
+
+  defp check_input(move, game = %State{view: %{moves: moves}}) do
     cond do
-      key in moves ->
-        IO.puts("Exploring #{key}")
-        Map.put(game, :command, key)
+      move in moves ->
+        Map.put(game, :command, move)
 
       true ->
-        movelist = "[" <> (moves |> Enum.join(", ")) <> "]"
-        IO.puts("#{key} must be one of: #{movelist}")
+        IO.puts("Invalid move: #{move}")
         accept_move(game)
     end
   end

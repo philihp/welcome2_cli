@@ -1,5 +1,5 @@
 defmodule Welcome2Cli.Interact do
-  @server :welcome2_game@valencia
+  @server :"welcome2_game@valencia.local"
 
   alias Welcome2Cli.{State, Player}
 
