@@ -41,7 +41,14 @@ defmodule Welcome2Cli.Prompter do
   end
 
   defp to_param(param) do
-    {digit, _} = Integer.parse(param)
+    param |> Integer.parse() |> to_num
+  end
+
+  defp to_num(:error) do
+    999
+  end
+
+  defp to_num({digit, _}) do
     digit
   end
 
@@ -51,7 +58,7 @@ defmodule Welcome2Cli.Prompter do
         Map.put(game, :command, move)
 
       true ->
-        IO.puts("Invalid move: #{move}")
+        IO.puts("Invalid move")
         accept_move(game)
     end
   end
