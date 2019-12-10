@@ -19,9 +19,10 @@ defmodule Welcome2Cli.Displayer do
     IO.puts("Permit 1: #{permit(shown1, deck1_suit)}")
     IO.puts("Permit 2: #{permit(shown2, deck2_suit)}")
     IO.puts("")
-    IO.puts(row(player, :a))
-    IO.puts(row(player, :b))
-    IO.puts(row(player, :c))
+    IO.puts("a " <> row(player, :a))
+    IO.puts("b " <> row(player, :b))
+    IO.puts("c " <> row(player, :c))
+    IO.puts("    1⏎  2⏎  3⏎  4⏎  5⏎  6⏎  7⏎  8⏎  9⏎ 10⏎ 11⏎ 12⏎")
     IO.puts("Plans:  Parks:    Pools: " <> pools(player) <> "  Estate:  1  2  3  4  5  6")
 
     IO.puts(
@@ -63,7 +64,7 @@ defmodule Welcome2Cli.Displayer do
       for(index <- 1..%{a: 9, b: 10, c: 11}[row], into: "") do
         "#{n(player, row, index)}#{f(player, row, index)}"
       end <>
-      n(player, row, 10) <>
+      n(player, row, %{a: 10, b: 11, c: 12}[row]) <>
       "|"
   end
 
