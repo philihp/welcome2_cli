@@ -56,7 +56,12 @@ defmodule Welcome2Cli.Displayer do
   end
 
   defp permit(%{face: face, suit: suit}, next) do
-    :io_lib.format("~2b ~-20s next-> ~-20s", [face, suit, next])
+    IO.ANSI.bright() <>
+      "#{:io_lib.format("~2b ~-20s", [face, suit])}" <>
+      IO.ANSI.reset() <>
+      " next -> " <>
+      IO.ANSI.bright() <>
+      "#{:io_lib.format("~-20s", [next])}" <> IO.ANSI.reset()
   end
 
   defp row(player, row) do
@@ -80,48 +85,51 @@ defmodule Welcome2Cli.Displayer do
 
     suffix =
       cond do
-        Map.get(player, :"row#{row}#{index}pool") -> "p"
         Map.get(player, :"row#{row}#{index}bis") -> "b"
+        Map.get(player, :"row#{row}#{index}pool") === true -> "p"
+        Map.get(player, :"row#{row}#{index}pool", :invalid) === false && number === 0 -> "."
         true -> " "
       end
 
     case number do
-      0 -> "___"
-      _ -> pad(number, 2) <> suffix
-    end
+      0 -> "  "
+      _ -> fmt(number, 2)
+    end <> IO.ANSI.bright() <> suffix <> IO.ANSI.reset()
   end
 
   defp pools(player) do
-    pad(player.pools, 2)
+    fmt(player.pools, 2)
   end
 
   defp plan(player, num) do
-    pad(Map.get(player, :"plan#{num}"), 2)
+    fmt(Map.get(player, :"plan#{num}"), 2)
   end
 
   defp temps(player) do
-    pad(player.temps, 2)
+    fmt(player.temps, 2)
   end
 
   defp bis(player) do
-    pad(player.bis, 2)
+    fmt(player.bis, 2)
   end
 
   defp refusals(player) do
-    pad(player.refusals, 2)
+    fmt(player.refusals, 2)
   end
 
   defp park(player, row) do
-    pad(Map.get(player, :"park#{row}"), 2)
+    fmt(Map.get(player, :"park#{row}"), 2)
   end
 
   defp estate(player, size) do
-    pad(Map.get(player, :"estate#{size}"), 2)
+    fmt(Map.get(player, :"estate#{size}"), 2)
   end
 
-  defp pad(n, pad) do
-    n
-    |> Integer.to_string()
-    |> String.pad_leading(pad)
+  defp fmt(n, pad) do
+    IO.ANSI.bright() <>
+      (n
+       |> Integer.to_string()
+       |> String.pad_leading(pad)) <>
+      IO.ANSI.reset()
   end
 end
