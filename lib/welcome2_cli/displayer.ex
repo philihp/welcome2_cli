@@ -85,14 +85,21 @@ defmodule Welcome2Cli.Displayer do
 
     suffix =
       cond do
-        Map.get(player, :"row#{row}#{index}bis") -> "b"
-        Map.get(player, :"row#{row}#{index}pool") === true -> "p"
-        Map.get(player, :"row#{row}#{index}pool", :invalid) === false && number === 0 -> "."
-        true -> " "
+        Map.get(player, :"row#{row}#{index}bis") ->
+          "b"
+
+        Map.get(player, :"row#{row}#{index}pool") === true ->
+          "p"
+
+        Map.get(player, :"row#{row}#{index}pool", :invalid) === false && number === nil ->
+          IO.ANSI.faint() <> "." <> IO.ANSI.reset()
+
+        true ->
+          " "
       end
 
     case number do
-      0 -> "  "
+      nil -> "  "
       _ -> fmt(number, 2)
     end <> IO.ANSI.bright() <> suffix <> IO.ANSI.reset()
   end
