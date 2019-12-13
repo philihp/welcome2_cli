@@ -5,6 +5,12 @@ defmodule Welcome2Cli.Displayer do
         state = %State{
           view: %{
             player: player,
+            plan0: plan0,
+            plan0_used: plan0_used,
+            plan1: plan1,
+            plan1_used: plan1_used,
+            plan2: plan2,
+            plan2_used: plan2_used,
             shown0: shown0,
             shown1: shown1,
             shown2: shown2,
@@ -15,6 +21,9 @@ defmodule Welcome2Cli.Displayer do
         }
       ) do
     IO.puts("================================================================================")
+    IO.puts("Plan 0:   #{plancard(plan0, plan0_used)}")
+    IO.puts("Plan 1:   #{plancard(plan1, plan1_used)}")
+    IO.puts("Plan 2:   #{plancard(plan2, plan2_used)}")
     IO.puts("Permit 0: #{permit(shown0, deck0_suit)}")
     IO.puts("Permit 1: #{permit(shown1, deck1_suit)}")
     IO.puts("Permit 2: #{permit(shown2, deck2_suit)}")
@@ -57,11 +66,28 @@ defmodule Welcome2Cli.Displayer do
 
   defp permit(%{face: face, suit: suit}, next) do
     IO.ANSI.bright() <>
-      "#{:io_lib.format("~2b ~-20s", [face, suit])}" <>
+      "#{:io_lib.format("~2b ~-17s", [face, suit])}" <>
       IO.ANSI.reset() <>
       " next -> " <>
       IO.ANSI.bright() <>
-      "#{:io_lib.format("~-20s", [next])}" <> IO.ANSI.reset()
+      "#{:io_lib.format("~-17s", [next])}" <> IO.ANSI.reset()
+  end
+
+  defp plancard(%{needs: needs, points1: points1, points2: points2}, used) do
+    "#{pointpoints(points1, !used)}/#{pointpoints(points2, used)} <- #{needs(needs)}"
+  end
+
+  defp pointpoints(points, embolden) do
+    cond do
+      embolden -> IO.ANSI.bright() <> "#{:io_lib.format("~2b", [points])}" <> IO.ANSI.reset()
+      true -> points
+    end
+  end
+
+  defp needs(needs) do
+    needs
+    |> Enum.map(fn {estate, num} -> "#{estate}: #{num}" end)
+    |> Enum.join(", ")
   end
 
   defp row(player, row) do
