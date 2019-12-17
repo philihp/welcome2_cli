@@ -5,28 +5,28 @@ defmodule Welcome2Cli.Displayer do
         state = %State{
           view: %{
             player: player,
-            plan0: plan0,
-            plan0_used: plan0_used,
             plan1: plan1,
             plan1_used: plan1_used,
             plan2: plan2,
             plan2_used: plan2_used,
-            shown0: shown0,
+            plan3: plan3,
+            plan3_used: plan3_used,
             shown1: shown1,
             shown2: shown2,
-            deck0_suit: deck0_suit,
+            shown3: shown3,
             deck1_suit: deck1_suit,
-            deck2_suit: deck2_suit
+            deck2_suit: deck2_suit,
+            deck3_suit: deck3_suit
           }
         }
       ) do
     IO.puts("================================================================================")
-    IO.puts("Plan 0:   #{plancard(plan0, plan0_used)}")
     IO.puts("Plan 1:   #{plancard(plan1, plan1_used)}")
     IO.puts("Plan 2:   #{plancard(plan2, plan2_used)}")
-    IO.puts("Permit 0: #{permit(shown0, deck0_suit)}")
+    IO.puts("Plan 3:   #{plancard(plan3, plan3_used)}")
     IO.puts("Permit 1: #{permit(shown1, deck1_suit)}")
     IO.puts("Permit 2: #{permit(shown2, deck2_suit)}")
+    IO.puts("Permit 3: #{permit(shown3, deck3_suit)}")
     IO.puts("")
     IO.puts("a " <> row(player, :a))
     IO.puts("b " <> row(player, :b))
