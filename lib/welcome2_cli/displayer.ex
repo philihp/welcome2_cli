@@ -80,7 +80,7 @@ defmodule Welcome2Cli.Displayer do
   defp pointpoints(points, embolden) do
     cond do
       embolden -> IO.ANSI.bright() <> "#{:io_lib.format("~2b", [points])}" <> IO.ANSI.reset()
-      true -> points
+      true -> "#{:io_lib.format("~2b", [points])}"
     end
   end
 
@@ -124,10 +124,18 @@ defmodule Welcome2Cli.Displayer do
           " "
       end
 
-    case number do
-      nil -> "  "
-      _ -> fmt(number, 2)
-    end <> IO.ANSI.bright() <> suffix <> IO.ANSI.reset()
+    n_bright(player, row, index) <>
+      case number do
+        nil -> "  "
+        _ -> fmt(number, 2)
+      end <> suffix <> IO.ANSI.reset()
+  end
+
+  defp n_bright(player, row, index) do
+    cond do
+      Map.get(player, :"row#{row}#{index}plan") -> IO.ANSI.faint()
+      true -> IO.ANSI.bright()
+    end
   end
 
   defp pools(player) do
@@ -159,10 +167,10 @@ defmodule Welcome2Cli.Displayer do
   end
 
   defp fmt(n, pad) do
-    IO.ANSI.bright() <>
-      (n
-       |> Integer.to_string()
-       |> String.pad_leading(pad)) <>
-      IO.ANSI.reset()
+    n
+    |> Integer.to_string()
+    |> String.pad_leading(pad)
+
+    # <>IO.ANSI.reset()
   end
 end

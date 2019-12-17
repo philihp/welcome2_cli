@@ -24,6 +24,10 @@ defmodule Welcome2Cli.Prompter do
     input
   end
 
+  defp to_move([]) do
+    :identity
+  end
+
   defp to_move([command]) do
     to_command(command)
   end
@@ -54,7 +58,7 @@ defmodule Welcome2Cli.Prompter do
 
   defp check_input(move, game = %State{view: %{moves: moves}}) do
     cond do
-      move in moves ->
+      move in (moves ++ [:identity]) ->
         Map.put(game, :command, move)
 
       true ->
