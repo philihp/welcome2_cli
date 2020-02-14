@@ -1,5 +1,5 @@
 defmodule Welcome2Cli.Interact do
-  @server :"welcome2_game@valencia.local"
+  @server :"welcome2_game@valencia.lan"
 
   alias Welcome2Cli.{State, Player}
 
@@ -12,7 +12,7 @@ defmodule Welcome2Cli.Interact do
   defp setup_state(game) do
     %State{
       service: game,
-      view: game |> Welcome2Game.make_move(:identity)
+      view: Welcome2Game.make_move(game, {})
     }
   end
 

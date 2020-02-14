@@ -4,6 +4,7 @@ defmodule Welcome2Cli.Displayer do
   def display(
         state = %State{
           view: %{
+            winner: winner,
             player: player,
             plan1: plan1,
             plan1_used: plan1_used,
@@ -21,6 +22,7 @@ defmodule Welcome2Cli.Displayer do
         }
       ) do
     IO.puts("================================================================================")
+    IO.puts("WINNER: #{winner}")
     IO.puts("Plan 1:   #{plancard(plan1, plan1_used)}")
     IO.puts("Plan 2:   #{plancard(plan2, plan2_used)}")
     IO.puts("Plan 3:   #{plancard(plan3, plan3_used)}")
